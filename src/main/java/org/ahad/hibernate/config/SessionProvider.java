@@ -3,6 +3,7 @@ package org.ahad.hibernate.config;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.stat.Statistics;
 
 public class SessionProvider {
 
@@ -12,11 +13,17 @@ public class SessionProvider {
         return sessionFactory.openSession();
     }
 
-    public static void closeSession(Session session) {
-        session.close();
+    public static void closeSession(Session... sessions) {
+        for (Session session : sessions) {
+            session.close();
+        }
     }
 
     public static void closeSessionFactory() {
         sessionFactory.close();
+    }
+
+    public static Statistics getSessionFactoryStatistics() {
+        return sessionFactory.getStatistics();
     }
 }
